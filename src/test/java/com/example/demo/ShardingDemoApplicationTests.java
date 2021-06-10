@@ -41,7 +41,7 @@ class ShardingDemoApplicationTests {
     public void queryCourseByCid() {
         QueryWrapper<Course> wrapper = new QueryWrapper<>();
 //        wrapper.eq("cid", 609815069894643712L);
-        wrapper.in("cid", 609815070360211456L, 609815070414737409L);
+        wrapper.in("cid", 609815070360211456L, 609815070414737409L, 132453465546534L);
         List<Course> courses = courseMapper.selectList(wrapper);
         courses.forEach(System.out::println);
 
@@ -51,6 +51,15 @@ class ShardingDemoApplicationTests {
     public void queryCourseByRang() {
         QueryWrapper<Course> wrapper = new QueryWrapper<>();
         wrapper.between("cid", 609815070360211456L, 609815070414737409L);
+        List<Course> courses = courseMapper.selectList(wrapper);
+        courses.forEach(System.out::println);
+    }
+
+    @Test
+    public void queryCourseOrder() {
+        QueryWrapper<Course> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("user_id"); //可以
+        wrapper.eq("user_id", "1002"); //可以,全表查
         List<Course> courses = courseMapper.selectList(wrapper);
         courses.forEach(System.out::println);
 
