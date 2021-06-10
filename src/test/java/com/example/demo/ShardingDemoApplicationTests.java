@@ -21,7 +21,7 @@ class ShardingDemoApplicationTests {
     public void addCourse(){
         for (int i = 0; i < 10; i++) {
             Course c = new Course();
-            c.setCid(Long.valueOf(i));
+//            c.setCid(Long.valueOf(i));
             c.setCname("shardingsphere");
             c.setUserId(Long.valueOf(1000 + i));
             c.setCstatus("1");
