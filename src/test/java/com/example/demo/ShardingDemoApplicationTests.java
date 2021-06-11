@@ -2,7 +2,11 @@ package com.example.demo;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.entity.Course;
+import com.example.demo.entity.Dict;
+import com.example.demo.entity.User;
 import com.example.demo.mapper.CourseMapper;
+import com.example.demo.mapper.DictMapper;
+import com.example.demo.mapper.UserMapper;
 import org.apache.shardingsphere.api.hint.HintManager;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +23,10 @@ class ShardingDemoApplicationTests {
 
     @Resource
     private CourseMapper courseMapper;
+    @Resource
+    private DictMapper dictMapper;
+    @Resource
+    private UserMapper userMapper;
 
     @Test
     public void addCourse() {
@@ -72,6 +80,35 @@ class ShardingDemoApplicationTests {
         List<Course> courses = courseMapper.selectList(null);
         courses.forEach(System.out::println);
         hintManager.close();
+    }
+
+    @Test
+    public void addDict() {
+        Dict d1 = new Dict();
+//        d1.setDictId(Long.valueOf("1"));
+        d1.setUstatus("1");
+        d1.setUvalue("正常");
+        dictMapper.insert(d1);
+
+        Dict d2 = new Dict();
+//        d2.setDictId(Long.valueOf("2"));
+        d2.setUstatus("0");
+        d2.setUvalue("不正常");
+        dictMapper.insert(d2);
+
+        for (int i = 0; i < 10; i++) {
+            User user = new User();
+            user.setUsername("User No" + i);
+            user.setUstatus("" + (i % 2));
+            user.setUage(i * 10);
+            userMapper.insert(user);
+        }
+    }
+
+    @Test
+    public void queryUserStatus(){
+        List<User> users = userMapper.queryUserStatus();
+        users.forEach(System.out::println);
     }
 
 }
