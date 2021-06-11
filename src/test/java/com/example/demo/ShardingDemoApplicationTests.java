@@ -1,12 +1,14 @@
 package com.example.demo;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.demo.entity.Course;
 import com.example.demo.entity.Dict;
 import com.example.demo.entity.User;
 import com.example.demo.mapper.CourseMapper;
 import com.example.demo.mapper.DictMapper;
 import com.example.demo.mapper.UserMapper;
+import net.minidev.json.writer.UpdaterMapper;
 import org.apache.shardingsphere.api.hint.HintManager;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -106,9 +108,41 @@ class ShardingDemoApplicationTests {
     }
 
     @Test
-    public void queryUserStatus(){
+    public void queryUserStatus() {
         List<User> users = userMapper.queryUserStatus();
         users.forEach(System.out::println);
+    }
+
+
+    //主从
+    //主写
+    @Test
+    public void masterSlaveDict() {
+        for (int i = 0; i < 10; i++) {
+            Dict d = new Dict();
+            d.setUstatus("" + (i % 2));
+            d.setUvalue("Normal");
+            dictMapper.insert(d);
+        }
+    }
+
+    //从读
+    @Test
+    public void masterSlaveRead() {
+        List<Dict> dicts = dictMapper.selectList(null);
+        dicts.forEach(System.out::println);
+    }
+
+    //主写
+    @Test
+    public void masterSlaveUpdate() {
+        Dict dict = new Dict();
+        dict.setUstatus("0");
+        dict.setUvalue("unNormal");
+
+        UpdateWrapper<Dict> wrapper = new UpdateWrapper<>();
+        wrapper.eq("ustatus", dict.getUstatus());
+        dictMapper.update(dict, wrapper);
     }
 
 }

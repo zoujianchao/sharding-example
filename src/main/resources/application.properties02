@@ -1,3 +1,4 @@
+####两库分表
 spring.shardingsphere.datasource.names=m1,m2
 
 spring.shardingsphere.datasource.m1.type=com.alibaba.druid.pool.DruidDataSource

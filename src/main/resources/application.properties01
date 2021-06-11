@@ -1,3 +1,4 @@
+####单库分表inline算法
 spring.shardingsphere.datasource.names=m1
 
 spring.shardingsphere.datasource.m1.type=com.alibaba.druid.pool.DruidDataSource
