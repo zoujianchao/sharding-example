@@ -1,4 +1,4 @@
-####两库分表
+####两库分表  standard算法 范围和精确查找  hint算法 强制路由 通过hintmanager指定 是线程安全的
 spring.shardingsphere.datasource.names=m1,m2
 
 spring.shardingsphere.datasource.m1.type=com.alibaba.druid.pool.DruidDataSource

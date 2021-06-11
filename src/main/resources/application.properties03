@@ -1,4 +1,4 @@
-####单库分表-绑定表
+####单库分表-绑定表  消除笛卡尔积  根据分片键关联
 spring.shardingsphere.datasource.names=m1
 
 spring.shardingsphere.datasource.m1.type=com.alibaba.druid.pool.DruidDataSource
