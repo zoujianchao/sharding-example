@@ -3,6 +3,7 @@ package com.example.demo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.entity.Course;
 import com.example.demo.mapper.CourseMapper;
+import org.apache.shardingsphere.api.hint.HintManager;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,15 @@ class ShardingDemoApplicationTests {
         wrapper.eq("user_id", "1002"); //可以,全表查
         List<Course> courses = courseMapper.selectList(wrapper);
         courses.forEach(System.out::println);
+    }
 
+    @Test
+    public void queryCourseHint() {
+        HintManager hintManager = HintManager.getInstance();
+        hintManager.addTableShardingValue("course", 2);
+        List<Course> courses = courseMapper.selectList(null);
+        courses.forEach(System.out::println);
+        hintManager.close();
     }
 
 }
